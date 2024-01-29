@@ -15,17 +15,17 @@ import { useState } from "react";
 import { Onboarding, deleteObdLog } from "@/service/onboarding";
 import { onboardingColumns } from "@/lib/onboarding-columns";
 import QRCode from "react-qr-code";
-import crypto from 'crypto'
-import CryptoJS from 'crypto-js';
-import Modal from '@/components/Modal';
+import crypto from "crypto";
+import CryptoJS from "crypto-js";
+import Modal from "@/components/Modal";
 import html2canvas from "html2canvas";
-import { API_URL } from "@/lib/config";
+import { API_URL, DOMAIN_URL } from "@/lib/config";
 
 const Qrcode = ({ obd }: { obd: Onboarding }) => {
   const [visible, setVisible] = useState(false);
   const smallQrRef = useRef(null);
   const bigQrRef = useRef(null);
-  const qrValue = API_URL + `/users/check/${obd.qrcode}`;
+  const qrValue = DOMAIN_URL + `/portal/onboarding/check/${obd.qrcode}`;
 
   console.log(qrValue);
 
@@ -33,31 +33,39 @@ const Qrcode = ({ obd }: { obd: Onboarding }) => {
     const qrCodeElement = bigQrRef.current;
 
     if (qrCodeElement) {
-      html2canvas(qrCodeElement).then(function(canvas) {
+      html2canvas(qrCodeElement).then(function (canvas) {
         // Convert the canvas to a data URL
-        const dataUrl = canvas.toDataURL('image/png');
+        const dataUrl = canvas.toDataURL("image/png");
 
         // Create a download link for the image
-        const downloadLink = document.createElement('a');
+        const downloadLink = document.createElement("a");
         downloadLink.href = dataUrl;
-        downloadLink.download = 'qrcode.png'; // Specify the file name
+        downloadLink.download = "qrcode.png"; // Specify the file name
         downloadLink.click();
       });
     }
-  }
+  };
 
   return (
     <>
       <div ref={smallQrRef}>
-        <QRCode value={qrValue} size={100} onClick={() => setVisible(true)} className="cursor-pointer" />
+        <QRCode
+          value={qrValue}
+          size={100}
+          onClick={() => setVisible(true)}
+          className="cursor-pointer"
+        />
       </div>
-      {
-        visible &&
+      {visible && (
         <Modal
           title="Scan QR Code"
           message={
             <div ref={bigQrRef}>
-              <QRCode value={qrValue} size={360} onClick={() => setVisible(false)} />
+              <QRCode
+                value={qrValue}
+                size={360}
+                onClick={() => setVisible(false)}
+              />
             </div>
           }
           onClick={() => setVisible(false)}
@@ -78,10 +86,10 @@ const Qrcode = ({ obd }: { obd: Onboarding }) => {
             </>
           }
         />
-      }
+      )}
     </>
-  )
-}
+  );
+};
 
 const Actions = ({ obd }: { obd: Onboarding }) => {
   const { id } = obd;
@@ -121,9 +129,12 @@ const Actions = ({ obd }: { obd: Onboarding }) => {
 
   return (
     <div className="flex items-center gap-2">
-      {
-        obd.used == false && <>
-          <Link href={`/portal/onboarding/edit/${id}`} className="text-blue-500">
+      {obd.used == false && (
+        <>
+          <Link
+            href={`/portal/onboarding/edit/${id}`}
+            className="text-blue-500"
+          >
             Edit
           </Link>
           <span
@@ -133,13 +144,13 @@ const Actions = ({ obd }: { obd: Onboarding }) => {
             Delete
           </span>
         </>
-      }
+      )}
     </div>
   );
 };
 
 const actions = (obd: Onboarding) => <Actions obd={obd} />;
-const qrcode = (obd: Onboarding) => <Qrcode obd={obd} />
+const qrcode = (obd: Onboarding) => <Qrcode obd={obd} />;
 
 export default function OnboardingTable({
   data,

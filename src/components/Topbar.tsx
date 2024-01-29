@@ -59,11 +59,11 @@ export default function Topbar() {
   const requestObdMut = useMutation({
     mutationFn: updateObdLog,
     onSuccess: (data) => {
-      if ('error' in data) {
+      if ("error" in data) {
         Swal.fire({
-          title: 'Error!',
+          title: "Error!",
           text: data.error,
-          icon: 'error',
+          icon: "error",
         });
         return;
       }
@@ -111,8 +111,7 @@ export default function Topbar() {
         onClick={handleCollpase}
         className="hover:text-blue-600"
       />
-      {
-        false &&
+      {false && (
         <Dropdown
           label={<DropDownEmail email={user?.email} />}
           inline
@@ -162,7 +161,7 @@ export default function Topbar() {
             Log out
           </Dropdown.Item>
         </Dropdown>
-      }
+      )}
 
       {
         <div
@@ -171,10 +170,7 @@ export default function Topbar() {
           }`}
           onClick={handleCloseScan}
         >
-          <div
-            id="reader"
-            className="w-[360px] h-[360px] m-auto"
-          ></div>
+          <div id="reader" className="w-[360px] h-[360px] m-auto"></div>
         </div>
       }
     </div>
