@@ -88,29 +88,8 @@ export default function Topbar() {
             cameraId,
             config,
             (decodedText: string, result: Html5QrcodeResult) => {
-              const data: Onboarding = JSON.parse(decodedText) as Onboarding;
               html5QrCode.stop();
               setVisible(false);
-
-              console.log("Detected!!");
-
-              if (data.email == "user2@gmail.com") {
-                requestObdMut.mutate({
-                  id: data.id,
-                  obdData: {
-                    name: data.name,
-                    email: data.email,
-                    expireDate: data.expireDate,
-                    used: true
-                  }
-                })
-              } else {
-                Swal.fire({
-                  title: "Error!",
-                  text: "Invalid code",
-                  icon: "error",
-                });
-              }
             },
             (error: string) => {}
           );
@@ -132,55 +111,58 @@ export default function Topbar() {
         onClick={handleCollpase}
         className="hover:text-blue-600"
       />
-      <Dropdown
-        label={<DropDownEmail email={user?.email} />}
-        inline
-        className="text-black"
-      >
-        {(user?.role === "normal user 1" || user?.role === "manager 1") && (
+      {
+        false &&
+        <Dropdown
+          label={<DropDownEmail email={user?.email} />}
+          inline
+          className="text-black"
+        >
+          {(user?.role === "normal user 1" || user?.role === "manager 1") && (
+            <Dropdown.Item>
+              <Link
+                href={"/portal/transaction-limit"}
+                as="/portal/transaction-limit"
+                className="flex gap-2 items-center"
+              >
+                <VscSettings size={18} className="text-black font-bold" />
+                Transaction Limits
+              </Link>
+            </Dropdown.Item>
+          )}
+          {(user?.role === "normal user 2" || user?.role === "manager 2") && (
+            <Dropdown.Item className="flex gap-2 items-center">
+              <SlSettings size={18} className="text-black font-bold" />
+              System Maintenace
+            </Dropdown.Item>
+          )}
+          <Dropdown.Item onClick={handleQRScan}>
+            <span className="flex gap-2 items-center">
+              <HiOutlineLockClosed size={18} className="text-black font-bold" />
+              QRScan
+            </span>
+          </Dropdown.Item>
           <Dropdown.Item>
             <Link
-              href={"/portal/transaction-limit"}
-              as="/portal/transaction-limit"
+              href={"/portal/change-password"}
+              as={"/portal/change-password"}
               className="flex gap-2 items-center"
             >
-              <VscSettings size={18} className="text-black font-bold" />
-              Transaction Limits
+              <HiOutlineLockClosed size={18} className="text-black font-bold" />
+              Change Password
             </Link>
           </Dropdown.Item>
-        )}
-        {(user?.role === "normal user 2" || user?.role === "manager 2") && (
-          <Dropdown.Item className="flex gap-2 items-center">
-            <SlSettings size={18} className="text-black font-bold" />
-            System Maintenace
-          </Dropdown.Item>
-        )}
-        <Dropdown.Item onClick={handleQRScan}>
-          <span className="flex gap-2 items-center">
-            <HiOutlineLockClosed size={18} className="text-black font-bold" />
-            QRScan
-          </span>
-        </Dropdown.Item>
-        <Dropdown.Item>
-          <Link
-            href={"/portal/change-password"}
-            as={"/portal/change-password"}
-            className="flex gap-2 items-center"
+          <Dropdown.Divider />
+          <Dropdown.Item
+            disabled={logoutMut.isLoading}
+            onClick={() => {
+              logoutMut.mutate(user?.id ?? "");
+            }}
           >
-            <HiOutlineLockClosed size={18} className="text-black font-bold" />
-            Change Password
-          </Link>
-        </Dropdown.Item>
-        <Dropdown.Divider />
-        <Dropdown.Item
-          disabled={logoutMut.isLoading}
-          onClick={() => {
-            logoutMut.mutate(user?.id ?? "");
-          }}
-        >
-          Log out
-        </Dropdown.Item>
-      </Dropdown>
+            Log out
+          </Dropdown.Item>
+        </Dropdown>
+      }
 
       {
         <div

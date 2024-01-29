@@ -33,7 +33,7 @@ export default function RequestMaintenancePage() {
       queryClient.invalidateQueries(['onboarding']);
       Swal.fire({
         title: 'Success!',
-        text: "You've successfully sent the request for approval.",
+        text: "You’ve successfully created the onboarding link.",
         icon: 'success',
       }).then(() => {
         router.push('/portal/onboarding');
@@ -154,7 +154,7 @@ export default function RequestMaintenancePage() {
               onClick={() => addMntRow()}
             >
               <FiPlus className="inline-block bg-blue-600 rounded-full text-white me-1" />
-              Add New Shedule
+              Add New Link
             </button>
           </div>
           <table className="">

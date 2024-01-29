@@ -13,7 +13,6 @@ import Swal from 'sweetalert2';
 import moment from 'moment';
 
 export default function EditOnboardingPage() {
-  const user = usePermission();
   const router = useRouter();
   const params = useParams();
   const [obdData, setObdData] = useState<ObdInput>({
@@ -47,7 +46,7 @@ export default function EditOnboardingPage() {
       queryClient.invalidateQueries(['onboarding']);
       Swal.fire({
         title: 'Success!',
-        text: "You've successfully sent the request for approval.",
+        text: "You've successfully updated user information.",
         icon: 'success',
       }).then(() => {
         router.push('/portal/onboarding');

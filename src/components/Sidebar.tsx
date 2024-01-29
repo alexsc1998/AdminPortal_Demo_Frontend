@@ -1,16 +1,16 @@
-'use client';
-import { sidebarCollapseAtom } from '@/atoms';
-import { useGetUserFromCookie } from '@/hooks/useGetUseFromCookie';
-import { useAtom } from 'jotai';
-import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { BsChevronUp, BsChevronDown } from 'react-icons/bs';
-import { GoPeople } from 'react-icons/go';
-import { HiOutlineLockClosed } from 'react-icons/hi';
-import { FiSettings } from 'react-icons/fi'
-import { VscSettings } from 'react-icons/vsc';
+"use client";
+import { sidebarCollapseAtom } from "@/atoms";
+import { useGetUserFromCookie } from "@/hooks/useGetUseFromCookie";
+import { useAtom } from "jotai";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { BsChevronUp, BsChevronDown } from "react-icons/bs";
+import { GoPeople } from "react-icons/go";
+import { HiOutlineLockClosed } from "react-icons/hi";
+import { FiSettings } from "react-icons/fi";
+import { VscSettings } from "react-icons/vsc";
 
 export default function Sidebar() {
   const user = useGetUserFromCookie();
@@ -27,15 +27,15 @@ export default function Sidebar() {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   useEffect(() => {
-    if (pathname?.includes('/users') || pathname?.includes('/user-groups')) {
+    if (pathname?.includes("/users") || pathname?.includes("/user-groups")) {
       setDropdownCollapsed(false);
     }
   }, [pathname]);
@@ -44,42 +44,46 @@ export default function Sidebar() {
     <aside
       className={`  text-[#ced4da] !bg-[#013750] md:text-sm text-xs h-screen `}
       style={{
-        transition: 'min-width 500ms cubic-bezier(0.2, 0, 0, 1) 0s',
-        minWidth: sidebarCollapsed ? '0' : '260px',
-        maxWidth: '0',
+        transition: "min-width 500ms cubic-bezier(0.2, 0, 0, 1) 0s",
+        minWidth: sidebarCollapsed ? "0" : "260px",
+        maxWidth: "0",
       }}
     >
-      <ul className={sidebarCollapsed ? 'overflow-hidden -z-10' : ''}>
-        <li className="relative max-w-full h-20  py-5 px-5 mb-4">
-          <Image
-            src="/BR Logo Black Tagline.png"
-            alt="BR Logo Black Tagline"
-            fill
-          />
+      <ul className={sidebarCollapsed ? "overflow-hidden -z-10" : ""}>
+        <li className="relative max-w-full py-5 px-5 mb-4">
+          <div className="bg-[#0767B3] flex justify-between items-center">
+            <Image src="/logo.png" alt="Logo" width={60} height={60} />
+            <span className="font-semibold text-2xl me-2">AFFIN BANK</span>
+          </div>
+          <div className="text-center text-lg text-black">
+            <span>Always about you</span>
+          </div>
         </li>
-        {
-          false &&
-          (user?.role !== 'normal user 1' && user?.role !== 'normal user 2') && 
-          <li className={`py-2.5 mb-5 text-[rgba(233,236,239,.5)] px-5 hover-active-bg ${
-            pathname?.includes('/dashboard') &&
-            'active-bg border-l-[3px] border-[#3b7ddd] -ml-1'
-          }`}>
-            <Link
-              href="/portal/dashboard"
-              as="/portal/dashboard"
-              className="flex flex-1 items-center gap-3"
+        {false &&
+          user?.role !== "normal user 1" &&
+          user?.role !== "normal user 2" && (
+            <li
+              className={`py-2.5 mb-5 text-[rgba(233,236,239,.5)] px-5 hover-active-bg ${
+                pathname?.includes("/dashboard") &&
+                "active-bg border-l-[3px] border-[#3b7ddd] -ml-1"
+              }`}
             >
-              <VscSettings size={20} />
-              Dashboard
-            </Link>
-          </li>
-        }
+              <Link
+                href="/portal/dashboard"
+                as="/portal/dashboard"
+                className="flex flex-1 items-center gap-3"
+              >
+                <VscSettings size={20} />
+                Dashboard
+              </Link>
+            </li>
+          )}
         <li className="px-5 text-[#ced4da] mb-2">Management</li>
-        {(user?.role === 'manager 1' || user?.role === 'normal user 1') && (
+        {(user?.role === "manager 1" || user?.role === "normal user 1") && (
           <li
             className={`py-2.5 text-[rgba(233,236,239,.5)] px-5 hover-active-bg ${
-              pathname?.includes('/transaction-limit') &&
-              'active-bg border-l-[3px] border-[#3b7ddd] -ml-1'
+              pathname?.includes("/transaction-limit") &&
+              "active-bg border-l-[3px] border-[#3b7ddd] -ml-1"
             }`}
           >
             <Link
@@ -92,11 +96,11 @@ export default function Sidebar() {
             </Link>
           </li>
         )}
-        {(user?.role === 'manager 2' || user?.role === 'normal user 2') && (
+        {(user?.role === "manager 2" || user?.role === "normal user 2") && (
           <li
             className={`py-2.5 text-[rgba(233,236,239,.5)] px-5 hover-active-bg ${
-              pathname?.includes('/system-maintenance') &&
-              'active-bg border-l-[3px] border-[#3b7ddd] -ml-1'
+              pathname?.includes("/system-maintenance") &&
+              "active-bg border-l-[3px] border-[#3b7ddd] -ml-1"
             }`}
           >
             <Link
@@ -109,14 +113,14 @@ export default function Sidebar() {
             </Link>
           </li>
         )}
-        {(user?.role === 'admin' || user?.role === 'admin 2') && (
+        {(user?.role === "admin" || user?.role === "admin 2") && (
           <>
             <li
               className={`flex items-center hover-active-bg text-[rgba(233,236,239,.5)] justify-between w-full py-2.5 px-5 ${
-                (pathname?.includes('/users') ||
-                  pathname?.includes('/user-groups')) &&
-                'active-bg border-l-[3px] border-[#3b7ddd] -ml-1'
-              } ${dropdownCollapsed && 'mb-2'}`}
+                (pathname?.includes("/users") ||
+                  pathname?.includes("/user-groups")) &&
+                "active-bg border-l-[3px] border-[#3b7ddd] -ml-1"
+              } ${dropdownCollapsed && "mb-2"}`}
             >
               <button
                 onClick={() => setDropdownCollapsed(!dropdownCollapsed)}
@@ -129,16 +133,16 @@ export default function Sidebar() {
               </button>
             </li>
             <ul
-              className={`${dropdownCollapsed ? ' hidden ' : ' block mb-2'} `}
+              className={`${dropdownCollapsed ? " hidden " : " block mb-2"} `}
               style={{
-                transition: 'visibility 500ms cubic-bezier(0.2, 0, 0, 1) 0s',
+                transition: "visibility 500ms cubic-bezier(0.2, 0, 0, 1) 0s",
               }}
             >
-              {user?.role !== 'admin 2' && (
+              {user?.role !== "admin 2" && (
                 <li
                   className={`py-2.5 ml-[1.25rem] text-[rgba(233,236,239,.5)] pl-[1.85rem] hover-active-bg ${
-                    pathname?.includes('/users') &&
-                    'active-bg border-l-[3px] border-[#3b7ddd] ml-5'
+                    pathname?.includes("/users") &&
+                    "active-bg border-l-[3px] border-[#3b7ddd] ml-5"
                   }`}
                 >
                   <Link
@@ -153,8 +157,8 @@ export default function Sidebar() {
 
               <li
                 className={`py-2.5 ml-[1.25rem] text-[rgba(233,236,239,.5)] pl-[1.85rem] hover-active-bg ${
-                  pathname?.includes('/user-groups') &&
-                  'active-bg border-l-[3px] border-[#3b7ddd] ml-5'
+                  pathname?.includes("/user-groups") &&
+                  "active-bg border-l-[3px] border-[#3b7ddd] ml-5"
                 }`}
               >
                 <Link
@@ -170,8 +174,8 @@ export default function Sidebar() {
         )}
         <li
           className={`py-2.5 text-[rgba(233,236,239,.5)] px-5 hover-active-bg ${
-            pathname?.includes('/onboarding') &&
-            'active-bg border-l-[3px] border-[#3b7ddd] -ml-1'
+            pathname?.includes("/onboarding") &&
+            "active-bg border-l-[3px] border-[#3b7ddd] -ml-1"
           }`}
         >
           <Link

@@ -9,6 +9,7 @@ export type Onboarding = {
   name: string;
   email: string;
   used: boolean;
+  qrcode: string;
 };
 
 // export type OnboardingTableData = {
@@ -39,6 +40,12 @@ export async function getObdLog(id: string) {
   // const headers = getHeader('AUTHGET');
   const res = await fetch(`${API_URL}/users/${id}`);
   const data: { obd: Onboarding } | { error: string } = await res.json();
+  return data;
+}
+
+export async function checkObdLog(id: string) {
+  const res = await fetch(`${API_URL}/users/check/${id}`);
+  const data: { user: Onboarding } | { error: string } = await res.json();
   return data;
 }
 

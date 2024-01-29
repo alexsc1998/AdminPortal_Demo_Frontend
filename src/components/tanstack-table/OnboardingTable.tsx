@@ -19,12 +19,15 @@ import crypto from 'crypto'
 import CryptoJS from 'crypto-js';
 import Modal from '@/components/Modal';
 import html2canvas from "html2canvas";
+import { API_URL } from "@/lib/config";
 
 const Qrcode = ({ obd }: { obd: Onboarding }) => {
   const [visible, setVisible] = useState(false);
   const smallQrRef = useRef(null);
   const bigQrRef = useRef(null);
-  const qrValue = JSON.stringify(obd);
+  const qrValue = API_URL + `/users/check/${obd.qrcode}`;
+
+  console.log(qrValue);
 
   const handleDownload = () => {
     const qrCodeElement = bigQrRef.current;
@@ -118,8 +121,8 @@ const Actions = ({ obd }: { obd: Onboarding }) => {
 
   return (
     <div className="flex items-center gap-2">
-     {
-        obd.used === false && obd.email === "user2@gmail.com" && <>
+      {
+        obd.used == false && <>
           <Link href={`/portal/onboarding/edit/${id}`} className="text-blue-500">
             Edit
           </Link>

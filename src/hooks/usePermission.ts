@@ -81,11 +81,10 @@ export function usePermission() {
         }
       }
     } else if (
-      !usr &&
-      pathname !== '/login' &&
-      (pathname === '/' || pathname?.startsWith('/portal'))
+      !usr && 
+      (pathname === '/' || pathname === '/login')
     ) {
-      // redirect('/login');
+      redirect('/portal/onboarding');
     }
   }, [user?.role]);
   return user;
